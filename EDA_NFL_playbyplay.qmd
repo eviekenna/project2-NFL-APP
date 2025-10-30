@@ -4,8 +4,6 @@ format: html
 editor: visual
 ---
 
-
-
 ```{r}
 library(tidyverse)
 #Read in Data - delimiter is Csv. 
@@ -160,9 +158,8 @@ ggplot(nfl_runpass, aes(x = play_type, y = yards_gained, fill = play_type)) +
 
 The side by side box plots show that passing plays have a higher average and median yardage than running plays, but also much higher variability. Running plays are more consistent and the interquartile range is narrower. Passing plays occasionally produce large gains (and losses), as shown by the longer whiskers and more outliers. This matched what we would expect using football intuition: passes are higher-risk, higher-reward, while runs are steadier and lower variance.
 
+### Looking at yards gained distribution over each season for passing
 
-
-### Looking at yards gained distribution over each season for passing 
 ```{r}
 library(tidyverse)
 library(lubridate)
@@ -186,8 +183,8 @@ ggplot(nfl_pass, aes(x = yards_gained, y = factor(season),
   theme_minimal(base_size = 13) +
   theme(panel.grid.minor = element_blank())
 ```
-The ridgeline plot shows that the distribution of yards gained on pass plays remains fairly consistent across seasons from 2009 to 2018. Each season peaks around short gains of 5 yards, with similar right-skewed tails representing occasional long completions. This indicates that the average effectiveness of a pass play, measured by yards gained, did not substantially change over the nine-year period.
 
+The ridgeline plot shows that the distribution of yards gained on pass plays remains fairly consistent across seasons from 2009 to 2018. Each season peaks around short gains of 5 yards, with similar right-skewed tails representing occasional long completions. This indicates that the average effectiveness of a pass play, measured by yards gained, did not substantially change over the nine-year period.
 
 ```{r}
 library(tidyverse)
@@ -212,8 +209,9 @@ ggplot(nfl_run, aes(x = yards_gained, y = factor(season),
   theme_minimal(base_size = 13) +
   theme(panel.grid.minor = element_blank())
 ```
-  The ridgeline plot for rushing yards shows a consistent, unimodal distribution across all seasons, with most runs gaining about 3–4 yards and occasional long gains. The near-identical shape of each density suggests that per-play rushing performance in the NFL remained remarkably stable from 2009 to 2018.
-  
+
+The ridgeline plot for rushing yards shows a consistent, unimodal distribution across all seasons, with most runs gaining about 3–4 yards and occasional long gains. The near-identical shape of each density suggests that per-play rushing performance in the NFL remained remarkably stable from 2009 to 2018.
+
 ```{r}
 nfl_09_18 |>
   filter(play_type == "run") |>
@@ -224,9 +222,8 @@ nfl_09_18 |>
   )
 
 ```
-  Across the 2009–2018 seasons, mean running yardage was remarkably consistent at about 4.3 yards per carry, with a stable median of 3 yards. The only exception occurred in 2018, when the mean increased to roughly 4.6 yards. Because the median remained unchanged, this rise was likely driven by a higher frequency of long, high-yardage runs rather than an across-the-board improvement in rushing efficiency.
 
-
+Across the 2009–2018 seasons, mean running yardage was remarkably consistent at about 4.3 yards per carry, with a stable median of 3 yards. The only exception occurred in 2018, when the mean increased to roughly 4.6 yards. Because the median remained unchanged, this rise was likely driven by a higher frequency of long, high-yardage runs rather than an across-the-board improvement in rushing efficiency.
 
 ```{r}
 library(tidyverse)
@@ -251,12 +248,12 @@ ggplot(nfl_time_scatter, aes(x = game_seconds_remaining / 60, y = yards_gained, 
   theme_minimal(base_size = 13)
 
 ```
+
 This scatter plot shows the raw distribution of yards gained across the full duration of the game, for both run and pass plays. Each point represents one play, with the x-axis indicating the minutes remaining (game start at 60, game end at 0).
 
 The plot reveals that both play types are fairly consistent throughout the game in terms of typical yardage, with most plays clustered around 0–10 yards. Passing plays (red) display greater variability, extending to both large gains and larger losses, while runs (blue) are tightly grouped around short, positive gains.
 
-There is a subtle widening of the spread near the end of games (toward 0 minutes), especially for pass plays — likely reflecting more aggressive play-calling late in games as teams attempt deeper passes or comeback drives.
-## add one more plot maybe
+There is a subtle widening of the spread near the end of games (toward 0 minutes), especially for pass plays — likely reflecting more aggressive play-calling late in games as teams attempt deeper passes or comeback drives. \## add one more plot maybe
 
 ```{r}
 library(tidyverse)
@@ -286,4 +283,3 @@ ggplot(nfl_violin, aes(x = time_bin, y = yards_gained, fill = play_type)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 ```
-
