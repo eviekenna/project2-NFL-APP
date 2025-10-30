@@ -88,7 +88,7 @@ Looking at the summaries above it is interesting to see that the average yards g
 
 ```{r}
 nfl_small |>
-  group_by(down, play_type_simple) |>
+  group_by(down, play_type) |>
   summarise(
     mean_yards = mean(yards_gained, na.rm = TRUE),
     median_yards = median(yards_gained, na.rm = TRUE),
@@ -127,7 +127,7 @@ ggplot(nfl_runpass, aes(x = yards_gained)) +
   coord_cartesian(xlim = c(-10, 25)) +  
   labs(
     title = "Distribution of Yards Gained by Play Type",
-    subtitle = "Blue line = median, Red line = mean",
+    subtitle = "Blue line = mean, Red line = median",
     x = "Yards gained",
     y = "Number of Plays"
   ) +
