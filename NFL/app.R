@@ -4,7 +4,7 @@ library(DT)
 
 # Load data (make sure this runs before the app)
 nfl_09_18 <- read_csv("NFL Play by Play 2009-2018 (v5).csv")
-nfl_09_18 <- nfl_09_18 %>%
+nfl_09_18 <- nfl_09_18 |>
   mutate(season = year(game_date))
 
 ui <- fluidPage(
@@ -28,7 +28,7 @@ ui <- fluidPage(
         selected = "play_type"
       ),
       
-      # Dynamic UI for selecting levels of cat1
+      # Dynamic UI for selecting levels of the chosen catagorical variable
       uiOutput("cat1_levels_ui"),
       
       hr(),
@@ -44,7 +44,7 @@ ui <- fluidPage(
         selected = "down"
       ),
       
-      # Dynamic UI for selecting levels of cat2
+      # Dynamic UI for selecting levels of the next chosen catagorical variable
       uiOutput("cat2_levels_ui"),
       
       hr(),
@@ -174,22 +174,22 @@ server <- function(input, output, session) {
     
     # Apply categorical filter 1
     if (!is.null(input$cat1_levels) && length(input$cat1_levels) > 0) {
-      df <- df %>% filter(as.character(.data[[input$cat1_var]]) %in% input$cat1_levels)
+      df <- df |> filter(as.character(.data[[input$cat1_var]]) %in% input$cat1_levels)
     }
     
     # Apply categorical filter 2
     if (!is.null(input$cat2_levels) && length(input$cat2_levels) > 0) {
-      df <- df %>% filter(as.character(.data[[input$cat2_var]]) %in% input$cat2_levels)
+      df <- df |> filter(as.character(.data[[input$cat2_var]]) %in% input$cat2_levels)
     }
     
     # Apply numeric filter 1
     if (!is.null(input$num1_var) && input$num1_var != "" && !is.null(input$num1_range)) {
-      df <- df %>% filter(between(.data[[input$num1_var]], input$num1_range[1], input$num1_range[2]))
+      df <- df |> filter(between(.data[[input$num1_var]], input$num1_range[1], input$num1_range[2]))
     }
     
     # Apply numeric filter 2
     if (!is.null(input$num2_var) && input$num2_var != "" && !is.null(input$num2_range)) {
-      df <- df %>% filter(between(.data[[input$num2_var]], input$num2_range[1], input$num2_range[2]))
+      df <- df |> filter(between(.data[[input$num2_var]], input$num2_range[1], input$num2_range[2]))
     }
     
     # Update the reactive value
