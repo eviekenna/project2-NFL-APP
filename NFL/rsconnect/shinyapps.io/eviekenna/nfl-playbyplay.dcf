@@ -1,0 +1,10 @@
+name: nfl-playbyplay
+title:
+username: eviekenna
+account: eviekenna
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 15965394
+bundleId: 11131245
+url: https://eviekenna.shinyapps.io/nfl-playbyplay/
+version: 1
