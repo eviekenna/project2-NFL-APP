@@ -6,10 +6,6 @@ library(DT)
 nfl_09_18 <- read_csv("NFL Play by Play 2009-2018 (v5).csv")
 nfl_09_18 <- nfl_09_18 |>
   mutate(season = year(game_date))
-# Get categorical and numeric variables for exploration
-cat_vars <- c("Team" = "posteam", "Down" = "down", "Play Type" = "play_type", "Season" = "season", "Quarter" = "qtr")
-num_vars <- c("Yards Gained" = "yards_gained", "Field Position" = "yardline_100", "Score Differential" = "score_differential")
-
 
 ui <- fluidPage(
   # Application title
@@ -32,7 +28,7 @@ ui <- fluidPage(
         selected = "play_type"
       ),
       
-      # Dynamic UI for selecting levels of the chosen catagorical variable
+      # Dynamic UI for selecting levels of the chosen categorical variable
       uiOutput("cat1_levels_ui"),
       
       hr(),
@@ -48,7 +44,7 @@ ui <- fluidPage(
         selected = "down"
       ),
       
-      # Dynamic UI for selecting levels of the next chosen catagorical variable
+      # Dynamic UI for selecting levels of the next chosen categorical variable
       uiOutput("cat2_levels_ui"),
       
       hr(),
@@ -159,8 +155,7 @@ ui <- fluidPage(
             tags$li(tags$strong("Data Exploration:"), 
                     " Create various summaries and visualizations of your filtered data. You can choose between 
                                 categorical summaries (contingency tables and bar charts) or numeric summaries (summary statistics, 
-                                histograms, and boxplots). This tab allows you to select which variables to analyze and how to 
-                                display them.")
+                                histograms, boxplots, and heatmaps).")
           ),
           
           br(),
@@ -296,13 +291,23 @@ ui <- fluidPage(
               column(width = 6, 
                      h5("Boxplot by Group"),
                      plotOutput("box_plot", height = "400px"))
+            ),
+            
+            hr(),
+            
+            h4("Heatmap: Numeric Variable by Two Categorical Variables"),
+            p("This heatmap shows the average (mean) of your selected numeric variable across combinations 
+              of your two categorical variables. Darker colors indicate higher values."),
+            fluidRow(
+              column(width = 12, 
+                     plotOutput("heatmap_plot", height = "500px"))
             )
           )
         )
       )
     )
   )
-)  # Added closing parenthesis for sidebarLayout and fluidPage
+)
 
 server <- function(input, output, session) {
   
@@ -619,6 +624,55 @@ server <- function(input, output, session) {
         axis.text.x = element_text(angle = 45, hjust = 1),
         legend.position = "none",
         plot.title = element_text(face = "bold")
+      )
+  })
+  
+  # Heatmap (uses num1_var with both cat1_var and cat2_var from sidebar)
+  output$heatmap_plot <- renderPlot({
+    req(input$num1_var, input$cat1_var, input$cat2_var)
+    df <- filtered_data()
+    
+    # Validation
+    validate(
+      need(nrow(df) > 0, "No data available with current filters."),
+      need(input$num1_var != "", "Please select a numeric variable in the sidebar."),
+      need(input$cat1_var != input$cat2_var, "Please select different variables for the two categorical filters.")
+    )
+    
+    # Calculate mean of numeric variable for each combination of categorical variables
+    heatmap_data <- df %>%
+      group_by(.data[[input$cat1_var]], .data[[input$cat2_var]]) %>%
+      summarise(
+        mean_value = mean(.data[[input$num1_var]], na.rm = TRUE),
+        n = n(),
+        .groups = "drop"
+      ) %>%
+      filter(!is.na(mean_value))
+    
+    # Create heatmap
+    ggplot(heatmap_data, aes(x = .data[[input$cat2_var]], 
+                             y = .data[[input$cat1_var]], 
+                             fill = mean_value)) +
+      geom_tile(color = "white", size = 0.5) +
+      geom_text(aes(label = round(mean_value, 1)), 
+                color = "white", 
+                fontface = "bold", 
+                size = 4) +
+      scale_fill_viridis_c(
+        option = "plasma",
+        name = paste("Mean\n", input$num1_var)
+      ) +
+      labs(
+        title = paste("Heatmap: Mean", input$num1_var, "by", input$cat1_var, "and", input$cat2_var),
+        x = input$cat2_var,
+        y = input$cat1_var,
+        caption = paste("Based on filtered data |", format(nrow(df), big.mark = ","), "plays")
+      ) +
+      theme_minimal(base_size = 12) +
+      theme(
+        plot.title = element_text(face = "bold", size = 14),
+        axis.text.x = element_text(angle = 45, hjust = 1),
+        legend.position = "right"
       )
   })
 }
