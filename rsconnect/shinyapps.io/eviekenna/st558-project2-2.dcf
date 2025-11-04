@@ -5,6 +5,6 @@ account: eviekenna
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 15965316
-bundleId:
+bundleId: 11131225
 url: https://eviekenna.shinyapps.io/st558-project2-2/
 version: 1
