@@ -446,7 +446,7 @@ ggplot(team_pass, aes(x = mean_yards, y = fct_reorder(posteam, mean_yards))) +
   )
 ```
 
-Looking at the plot we can see that LAC had the highest average over the years 2009-2018 while STL had the lowest.
+Looking at the plot we can see that LAC had the highest average of yards_gained via passing over the years 2009-2018 while STL had the lowest.
 
 ```{r}
 team_run <- nfl_small |>
@@ -475,7 +475,7 @@ ggplot(team_run, aes(x = mean_yards, y = fct_reorder(posteam, mean_yards))) +
   )
 ```
 
-Looking at the above the team that had the highest average yards gained over the years 2009-2018 was PHI.
+Looking at the above the team that had the highest average yards gained via running over the years 2009-2018 was PHI.
 
 # Key Findings Summary
 
@@ -507,7 +507,7 @@ This exploratory analysis reveals several patterns that will be useful for the S
 
 ## Key Variables Identified
 
-**Categorical variables of interest:** - `play_type` - fundamental to understanding offensive strategy - `down` - critical game situation variable - `qtr` - temporal aspect of the game - `season` - allows for year-over-year comparisons
+**Categorical variables of interest:** - `play_type` - fundamental to understanding offensive strategy - `down` - critical game situation variable - `season` - allows for year-over-year comparisons
 
 **Numeric variables of interest:** - `yards_gained` - primary outcome measure - `yardline_100` - field position context - `score_differential` - game situation context
 
@@ -519,7 +519,3 @@ This exploratory analysis reveals several patterns that will be useful for the S
 4.  **Temporal trends**: Changes in offensive strategies over seasons
 
 The Shiny app will allow users to filter by these variables and create custom visualizations to explore these patterns in more depth, enabling deeper insights into NFL offensive strategy and play outcomes.
-
-------------------------------------------------------------------------
-
-**End of EDA Document**
