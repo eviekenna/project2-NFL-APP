@@ -242,7 +242,7 @@ ui <- fluidPage(
           
           hr(),
           
-          # ===== CATEGORICAL SUMMARIES =====
+          # CATEGORICAL SUMMARIES 
           conditionalPanel(
             condition = "input.eda_mode === 'Categorical Summaries'",
             
@@ -271,7 +271,7 @@ ui <- fluidPage(
             )
           ),
           
-          # ===== NUMERIC SUMMARIES =====
+          #  NUMERIC SUMMARIES
           conditionalPanel(
             condition = "input.eda_mode === 'Numeric Summaries'",
             
@@ -410,7 +410,7 @@ server <- function(input, output, session) {
     filtered_data(df)
   })
   
-  # ========== DATA DOWNLOAD TAB OUTPUTS ==========
+  # DATA DOWNLOAD TAB OUTPUTS
   
   # Display dataset size
   output$dataset_size <- renderText({
@@ -443,7 +443,7 @@ server <- function(input, output, session) {
     }
   )
   
-  # ========== DATA EXPLORATION TAB: CATEGORICAL SUMMARIES ==========
+  # DATA EXPLORATION TAB CATEGORICAL SUMMARIES
   
   # One-way contingency table (uses cat1_var from sidebar)
   output$oneway_table <- renderDT({
