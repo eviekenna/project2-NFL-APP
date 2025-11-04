@@ -87,7 +87,7 @@ This smaller CSV file — **`NFL Play by Play 2009–2018 (v5).csv`** — allows
 
 - **R / Shiny** – App framework and interactivity  
 - **tidyverse** – Data wrangling and summarization  
-- **ggplot2** + **viridis** – Visualization  
+- **ggplot2** – Visualization  
 - **DT** – Interactive data tables  
 - **bslib** – Modernized Bootstrap 5 interface  
 - **rsconnect** – Deployment to shinyapps.io  
